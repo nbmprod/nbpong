@@ -16,6 +16,10 @@ const maxPaddleY = canvas.height - grid - paddleHeight;
 let paddleSpeed = 6;
 let ballSpeed = 5;
 
+//score
+let leftScore = 0;
+let rightScore = 0;
+
 //--------------------PADDLES AND BALL--------------------
 
 const leftPaddle = {
@@ -102,8 +106,19 @@ function loop() {
       ball.dy *= -1;
     }
     
-    if ( (ball.x < 0 || ball.x > canvas.width) && !ball.resetting) {
+    if ( (ball.x < 0) && !ball.resetting) {
         ball.resetting = true;
+        rightScore++;
+        setTimeout(() => {
+            ball.resetting = false;
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+        }, 1000);
+    }
+
+    else if ( (ball.x > canvas.width) && !ball.resetting) {
+        ball.resetting = true;
+        leftScore++;
         setTimeout(() => {
             ball.resetting = false;
             ball.x = canvas.width / 2;
@@ -133,6 +148,18 @@ function loop() {
     for (let i = grid; i < canvas.height - grid; i += grid * 2) {
         context.fillRect(canvas.width / 2 - grid / 2, i, grid, grid);
     }
+
+    //draw left score
+    context.font = "60px IBM Plex Mono";
+    context.globalAlpha = 0.5;
+    context.fillText(leftScore, canvas.width/2 - (grid * 6), canvas.height / 6);
+    context.globalAlpha = 1;
+
+    //draw right score
+    context.font = "60px IBM Plex Mono";
+    context.globalAlpha = 0.5;
+    context.fillText(rightScore, canvas.width/2 + (grid * 3.4), canvas.height / 6);
+    context.globalAlpha = 1;
 
     //key press listener
     document.addEventListener('keydown', function (e) {
@@ -169,3 +196,5 @@ function loop() {
 }
 
 requestAnimationFrame(loop);
+
+
