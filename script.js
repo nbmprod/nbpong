@@ -105,7 +105,8 @@ function loop() {
       ball.y = canvas.height - grid * 2;
       ball.dy *= -1;
     }
-    
+
+    //score detecting
     if ( (ball.x < 0) && !ball.resetting) {
         ball.resetting = true;
         rightScore++;
@@ -126,6 +127,7 @@ function loop() {
         }, 1000);
     }
 
+    //paddles collision
     if (collides(ball, leftPaddle)) {
         ball.dx *= -1;
         ball.x = leftPaddle.x + leftPaddle.width;
@@ -193,6 +195,31 @@ function loop() {
           leftPaddle.dy = 0;
         }
       });
+
+    //endgame
+    if (leftScore === 7) {
+        alert('Red wins!');
+        let againButton = confirm('Wanna play again?');
+        if (againButton){
+            leftScore = 0;
+            rightScore = 0;
+            location.reload();
+        } else {
+            window.close();
+            }
+    }
+        
+    else if (rightScore === 7) {
+        alert('Blue wins!')
+        let againButton = confirm('Wanna play again?');
+            if (againButton){
+                leftScore = 0;
+                rightScore = 0;
+                location.reload();
+            }   else {
+                window.close();
+        }
+    }
 }
 
 requestAnimationFrame(loop);
