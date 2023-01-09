@@ -144,6 +144,8 @@ function loop() {
             ball.resetting = false;
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
+            ball.dx = -ballSpeed;
+            ball.dy = ballSpeed;    
         }, 1000);
     }
 
@@ -156,6 +158,8 @@ function loop() {
             ball.resetting = false;
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
+            ball.dx = ballSpeed;
+            ball.dy = -ballSpeed;
         }, 1000);
     }
 
@@ -163,11 +167,15 @@ function loop() {
     if (collides(ball, leftPaddle)) {
         playPaddleSFX()
         ball.dx *= -1;
+        ball.dx += 2;
+        ball.dy += 2;
         ball.x = leftPaddle.x + leftPaddle.width;
     }
     else if (collides(ball, rightPaddle)) {
         playPaddleSFX()
         ball.dx *= -1;
+        ball.dx -= 2;
+        ball.dy -= 2;
         ball.x = rightPaddle.x - ball.width;
     }
 
