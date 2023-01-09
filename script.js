@@ -20,6 +20,10 @@ let ballSpeed = 5;
 let leftScore = 0;
 let rightScore = 0;
 
+//colors
+let red = '#db0000';
+let blue = '#0049bf';
+
 //--------------------SOUNDS--------------------
 
 function playCollisionSFX() {
@@ -111,11 +115,11 @@ function loop() {
       }
 
     //left paddle draw
-    context.fillStyle = 'red';
+    context.fillStyle = red;
     context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
     
      //right paddle draw
-    context.fillStyle = 'blue';
+    context.fillStyle = blue;
     context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height);
     
     //general ball moving
@@ -166,22 +170,54 @@ function loop() {
     //paddles collision
     if (collides(ball, leftPaddle)) {
         playPaddleSFX()
-        ball.dx *= -1;
-        ball.dx += 2;
-        ball.dy += 2;
+
+        if (leftPaddle.dy != 0) {
+            ball.dx *= -1;
+            ball.dx += 2;
+            // ball.dy += 2;
+        }
+        else if (leftPaddle.dy == 0){
+            ball.dx *= -1;
+            ball.dx = ballSpeed;
+            ball.dy = -ballSpeed;
+        }
+        
         ball.x = leftPaddle.x + leftPaddle.width;
     }
+    
     else if (collides(ball, rightPaddle)) {
         playPaddleSFX()
-        ball.dx *= -1;
-        ball.dx -= 2;
-        ball.dy -= 2;
+
+        if (rightPaddle.dy !== 0) {
+            ball.dx *= -1;
+            ball.dx -= 2;
+            // ball.dy = 2;
+            
+        }
+        else if ((rightPaddle.dy === 0)){
+            ball.dx *= -1;
+            ball.dx = -ballSpeed;
+            ball.dy = ballSpeed;
+        }
+       
         ball.x = rightPaddle.x - ball.width;
     }
 
     //draw a ball
-    context.fillStyle = 'yellow';
-    context.fillRect(ball.x, ball.y, ball.width, ball.height);
+
+    if (ball.dx > ballSpeed) {
+        context.fillStyle = red; // change color with speed up from leftPaddle
+      }
+      
+    else if (ball.dx === ballSpeed || ball.dx === -ballSpeed){
+        context.fillStyle = 'lightgrey'; //base ballSpeed color
+    }
+    
+    else if (ball.dx < ballSpeed) {
+        context.fillStyle = blue; // change color with speed up from rightPaddle
+    }
+   
+    context.fillRect(ball.x, ball.y, ball.width, ball.height);    
 
     //draw walls
     context.fillStyle = 'lightgrey';
