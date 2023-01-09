@@ -20,6 +20,33 @@ let ballSpeed = 5;
 let leftScore = 0;
 let rightScore = 0;
 
+//--------------------SOUNDS--------------------
+
+function playCollisionSFX() {
+    let audio = new Audio('./src/audio/bonk.mp3');
+    audio.play();
+}
+
+function playPaddleSFX() {
+    let audio = new Audio('./src/audio/bonk-wow.mp3');
+    audio.play();
+}
+
+function playScoreLeftSFX() {
+    let audio = new Audio('./src/audio/yeet-high.mp3');
+    audio.play();
+}
+
+function playScoreRightSFX() {
+    let audio = new Audio('./src/audio/yeet-low.mp3');
+    audio.play();
+}
+
+function playWinSFX() {
+    let audio = new Audio('./src/audio/punch.mp3');
+    audio.play();
+}
+
 //--------------------PADDLES AND BALL--------------------
 
 const leftPaddle = {
@@ -97,19 +124,22 @@ function loop() {
     
     //ball walls collision
     if (ball.y < grid) {
+        playCollisionSFX()
         ball.y = grid;
         ball.dy *= -1;
       }
 
     else if (ball.y + grid > canvas.height - grid) {
-      ball.y = canvas.height - grid * 2;
-      ball.dy *= -1;
+        playCollisionSFX()
+        ball.y = canvas.height - grid * 2;
+        ball.dy *= -1;
     }
 
-    //score detecting
+    //score right detecting
     if ( (ball.x < 0) && !ball.resetting) {
         ball.resetting = true;
         rightScore++;
+        playScoreRightSFX();
         setTimeout(() => {
             ball.resetting = false;
             ball.x = canvas.width / 2;
@@ -117,9 +147,11 @@ function loop() {
         }, 1000);
     }
 
+    //score left detecting
     else if ( (ball.x > canvas.width) && !ball.resetting) {
         ball.resetting = true;
         leftScore++;
+        playScoreLeftSFX();
         setTimeout(() => {
             ball.resetting = false;
             ball.x = canvas.width / 2;
@@ -129,10 +161,12 @@ function loop() {
 
     //paddles collision
     if (collides(ball, leftPaddle)) {
+        playPaddleSFX()
         ball.dx *= -1;
         ball.x = leftPaddle.x + leftPaddle.width;
     }
     else if (collides(ball, rightPaddle)) {
+        playPaddleSFX()
         ball.dx *= -1;
         ball.x = rightPaddle.x - ball.width;
     }
@@ -198,6 +232,7 @@ function loop() {
 
     //endgame
     if (leftScore === 7) {
+        playWinSFX()
         alert('Red wins!');
         let againButton = confirm('Wanna play again?');
         if (againButton){
@@ -210,6 +245,7 @@ function loop() {
     }
         
     else if (rightScore === 7) {
+        playWinSFX()
         alert('Blue wins!')
         let againButton = confirm('Wanna play again?');
             if (againButton){
