@@ -13,7 +13,7 @@ const paddleHeight = grid * 5; //80
 const maxPaddleY = canvas.height - grid - paddleHeight;
 
 //speed
-let paddleSpeed = 6;
+let paddleSpeed = 8;
 let ballSpeed = 5;
 
 //score
@@ -206,15 +206,29 @@ function loop() {
     //draw a ball
 
     if (ball.dx > ballSpeed) {
-        context.fillStyle = red; // change color with speed up from leftPaddle
+        let gradient = context.createLinearGradient(ball.x - ball.dx, ball.y - ball.dy, ball.width/2, ball.height/2);
+        gradient.addColorStop(0, 'gold');
+        gradient.addColorStop(1, 'transparent');
+        context.fillStyle = gradient;
+        context.fillRect(ball.x - ball.dx, ball.y - ball.dy, ball.width, ball.height);
+        // context.fillRect(ball.x - (ball.dx + ball.width/2), ball.y - ball.dy, ball.width, ball.height);
+        
+        context.fillStyle = 'lightgrey'; // change color with speed up from leftPaddle
       }
       
     else if (ball.dx === ballSpeed || ball.dx === -ballSpeed){
+        gradient = null;
         context.fillStyle = 'lightgrey'; //base ballSpeed color
     }
     
     else if (ball.dx < ballSpeed) {
-        context.fillStyle = blue; // change color with speed up from rightPaddle
+        let gradient = context.createLinearGradient(ball.x - ball.dx, ball.y - ball.dy, ball.width/2, ball.height/2);
+        gradient.addColorStop(0, 'gold');
+        gradient.addColorStop(1, 'transparent');
+        context.fillStyle = gradient;
+        context.fillRect(ball.x - ball.dx, ball.y - ball.dy, ball.width, ball.height);
+        
+        context.fillStyle = 'lightgrey'; // change color with speed up from rightPaddle
     }
    
     context.fillRect(ball.x, ball.y, ball.width, ball.height);    
