@@ -79,6 +79,26 @@ const ball = {
     dy: -ballSpeed
 };
 
+//--------------------AI--------------------
+function AILogic() {
+    //calculate the distance between the ball and the center of the paddle
+    let paddleCenter = rightPaddle.y + rightPaddle.height / 2;
+    let distance = ball.y - paddleCenter;
+
+    //if the ball is above the center of the paddle
+    if (distance < -20) {
+        rightPaddle.dy = -paddleSpeed + 3.15; // 4 - easy; 3.2 - normal
+    }
+    //if the ball is below the center of the paddle
+    else if (distance > 20) {
+        rightPaddle.dy = paddleSpeed - 3.15;
+    }
+    //if the ball is close to the center of the paddle
+    else {
+        rightPaddle.dy = 0;
+    }
+}
+
 //--------------------COLLISIONS--------------------
 
 function collides(obj1, obj2) {
@@ -113,7 +133,10 @@ function loop() {
     else if (rightPaddle.y > maxPaddleY) {
         rightPaddle.y = maxPaddleY;
       }
-
+    
+    //run AI
+    AILogic()
+    
     //left paddle draw
     context.fillStyle = red;
     context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
@@ -178,7 +201,6 @@ function loop() {
         }
         else if (leftPaddle.dy == 0){
             ball.dx = ballSpeed;
-            // ball.dy = -ballSpeed;        
         }
 
     }
@@ -195,7 +217,6 @@ function loop() {
         }
         else if ((rightPaddle.dy === 0)){
             ball.dx = -ballSpeed;
-            // ball.dy = ballSpeed;
         }
         
     }
