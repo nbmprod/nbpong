@@ -24,6 +24,9 @@ let rightScore = 0;
 let red = '#db0000';
 let blue = '#0049bf';
 
+//text
+const upText = document.querySelector('.text');
+
 //--------------------SOUNDS--------------------
 
 function playCollisionSFX() {
@@ -87,11 +90,11 @@ function AILogic() {
 
     //if the ball is above the center of the paddle
     if (distance < -20) {
-        rightPaddle.dy = -paddleSpeed + 3.15; // 4 - easy; 3.2 - normal
+        rightPaddle.dy = -paddleSpeed + 3.2; // 4 - easy; 3.2 - normal; 3.15 - hard
     }
     //if the ball is below the center of the paddle
     else if (distance > 20) {
-        rightPaddle.dy = paddleSpeed - 3.15;
+        rightPaddle.dy = paddleSpeed - 3.2;
     }
     //if the ball is close to the center of the paddle
     else {
@@ -167,12 +170,14 @@ function loop() {
         ball.resetting = true;
         rightScore++;
         playScoreRightSFX();
+        upText.classList.add('text_blue');
         setTimeout(() => {
             ball.resetting = false;
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
             ball.dx = -ballSpeed;
-            ball.dy = ballSpeed;    
+            ball.dy = ballSpeed;
+            upText.classList.remove('text_blue');    
         }, 1000);
     }
 
@@ -181,12 +186,14 @@ function loop() {
         ball.resetting = true;
         leftScore++;
         playScoreLeftSFX();
+        upText.classList.add('text_red');
         setTimeout(() => {
             ball.resetting = false;
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
             ball.dx = ballSpeed;
             ball.dy = -ballSpeed;
+            upText.classList.remove('text_red');    
         }, 1000);
     }
 
@@ -222,7 +229,6 @@ function loop() {
     }
 
     //draw a ball
-
     if (ball.dx > ballSpeed) {
         let gradient = context.createLinearGradient(ball.x - ball.dx, ball.y - ball.dy, ball.width/2, ball.height/2);
         gradient.addColorStop(0, 'gold');
