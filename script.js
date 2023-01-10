@@ -168,39 +168,36 @@ function loop() {
     }
 
     //paddles collision
-    if (collides(ball, leftPaddle)) {
+    if (collides(ball, leftPaddle)) { //left paddle
         playPaddleSFX()
+        ball.dx *= -1;
+        ball.x = leftPaddle.x + leftPaddle.width;
 
         if (leftPaddle.dy != 0) {
-            ball.dx *= -1;
             ball.dx += 2;
-            // ball.dy += 2;
         }
         else if (leftPaddle.dy == 0){
-            ball.dx *= -1;
             ball.dx = ballSpeed;
-            ball.dy = -ballSpeed;
+            // ball.dy = -ballSpeed;        
         }
-        
-        ball.x = leftPaddle.x + leftPaddle.width;
+
     }
     
-    else if (collides(ball, rightPaddle)) {
+    else if (collides(ball, rightPaddle)) { //right paddle
         playPaddleSFX()
 
+        ball.dx *= -1;
+        ball.x = rightPaddle.x - ball.width;
+
         if (rightPaddle.dy !== 0) {
-            ball.dx *= -1;
             ball.dx -= 2;
-            // ball.dy = 2;
             
         }
         else if ((rightPaddle.dy === 0)){
-            ball.dx *= -1;
             ball.dx = -ballSpeed;
-            ball.dy = ballSpeed;
+            // ball.dy = ballSpeed;
         }
-       
-        ball.x = rightPaddle.x - ball.width;
+        
     }
 
     //draw a ball
