@@ -1,3 +1,8 @@
+//--------------------IMPORTS--------------------
+
+import AILogic from 'src/scripts/AILogic.js';
+
+
 //--------------------VARIABLES--------------------
 
 const canvas = document.getElementById('game');
