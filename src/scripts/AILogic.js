@@ -9,11 +9,11 @@ export function AILogic() {
 
     //if the ball is above the center of the paddle
     if (distance < -20) {
-        rightPaddle.dy = -paddleSpeed + 3.2; // 4 - easy; 3.2 - normal; 3.125 - hard
+        rightPaddle.dy = -paddleSpeed + 3.4; // 4 - easy; 3.2 - normal; 3.125 - hard
     }
     //if the ball is below the center of the paddle
     else if (distance > 20) {
-        rightPaddle.dy = paddleSpeed + 3.2;
+        rightPaddle.dy = paddleSpeed + 3.4;
     }
     //if the ball is close to the center of the paddle
     else {
